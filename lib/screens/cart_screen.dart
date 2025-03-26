@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shopping_app_assignment/cubit/product_cubit.dart';
 import 'package:shopping_app_assignment/models/product_model.dart';
+import 'package:shopping_app_assignment/screens/items_screen.dart';
 import 'package:shopping_app_assignment/widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
@@ -10,10 +11,6 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final productCubit = context.read<ProductCubit>();
-    // final cartItems = productCubit.cartItems;
-    // double totalPrice = productCubit.getTotalPrice();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink[100],
@@ -50,7 +47,10 @@ class CartScreen extends StatelessWidget {
                       ),
               ),
               if (cartItems.isNotEmpty)
-                checkOutWidget(context: context, totlePrice: totalPrice),
+                checkOutWidget(
+                  context: context,
+                  totlePrice: totalPrice,
+                ),
               SizedBox(
                 height: 20,
               )
@@ -61,8 +61,10 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget checkOutWidget(
-      {required BuildContext context, required double totlePrice}) {
+  Widget checkOutWidget({
+    required BuildContext context,
+    required double totlePrice,
+  }) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       margin: const EdgeInsets.symmetric(
@@ -95,13 +97,9 @@ class CartScreen extends StatelessWidget {
               ),
             ],
           ),
-          // Right Side - Check Out Button
           ElevatedButton.icon(
             onPressed: () {
-              // Add checkout action
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Checked Out Successfully!")),
-              );
+              showCongratsDialog(context);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.pink.shade600,
@@ -123,6 +121,72 @@ class CartScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void showCongratsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          alignment: Alignment.center,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Lottie.asset('assets/lotties/congrats.json',
+                    animate: true,
+                    width: 300,
+                    height: 200,
+                    fit: BoxFit.cover,
+                    repeat: true),
+                const Text(
+                  'Congrats!',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton(
+                  onPressed: () {
+                    context.read<ProductCubit>().clearCarts();
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ItemsScreen(),
+                      ),
+                      (route) => false,
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pink[400],
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'Continue',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

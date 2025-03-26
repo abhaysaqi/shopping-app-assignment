@@ -6,10 +6,35 @@ import '../models/product_model.dart';
 class ProductCubit extends Cubit<List<ProductModel>> {
   ProductCubit() : super([]);
   final List<ProductModel> _cartItems = [];
+  int pageNumber = 0;
+  int limit = 10;
+  bool isLoading = false;
 
-  Future<void> fetchProducts() async {
-    final products = await ApiService.fetchProducts();
-    emit(products);
+  Future<void> fetchProducts({bool loadMore = false}) async {
+    if (isLoading) return;
+    isLoading = true;
+
+    try {
+      final products = await ApiService.fetchProducts(
+        skip: pageNumber * limit,
+      );
+
+      if (loadMore) {
+        // print(" If working $products  and ${products.length}");
+        emit([...state, ...products]);
+      } else {
+        // print("Else working$products and ${products.length}");
+        emit(products);
+      }
+
+      if (products.isNotEmpty) {
+        pageNumber++;
+        // emit(state);
+      }
+    } catch (e) {
+      emit([]);
+    }
+    isLoading = false;
   }
 
   void addToCart(ProductModel product) {
@@ -52,4 +77,9 @@ class ProductCubit extends Cubit<List<ProductModel>> {
   }
 
   List<ProductModel> get cartItems => List.from(_cartItems);
+
+  clearCarts() {
+    _cartItems.clear();
+    emit(List.from(state));
+  }
 }

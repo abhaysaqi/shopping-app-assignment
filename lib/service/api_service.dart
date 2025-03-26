@@ -1,5 +1,6 @@
 // lib/services/api_service.dart
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../models/product_model.dart';
 
@@ -11,7 +12,7 @@ class ApiService {
     try {
       final response =
           await http.get(Uri.parse('$_baseUrl?skip=$skip&limit=$limit'));
-      print("Response ${response.statusCode}  And  ${response.body}");
+      debugPrint("Response ${response.statusCode}  And  ${response.body}");
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -21,7 +22,7 @@ class ApiService {
         throw Exception('Failed to load products');
       }
     } catch (e) {
-      print("Catch Working");
+      debugPrint("Catch Working $e");
       throw Exception(e);
     }
   }

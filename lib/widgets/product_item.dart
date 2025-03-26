@@ -41,7 +41,7 @@ class ProductItem extends StatelessWidget {
                                           value: downloadProgress.progress)),
                                 ),
                         errorWidget: (context, url, error) {
-                          print("Error while using Network Image");
+                          debugPrint("Error while using Network Image");
                           return CachedNetworkImage(
                             imageUrl:
                                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVLDP5s2j9u1x86fOb7kNKXanJeMn8zZ30ZQ&s",
@@ -80,7 +80,7 @@ class ProductItem extends StatelessWidget {
                     maxLines: 1,
                     style: const TextStyle(
                         fontSize: 14, fontWeight: FontWeight.bold)),
-                Text(product.brand,
+                Text(product.category,
                     style: TextStyle(fontSize: 12, color: Colors.black87)),
                 SizedBox(
                   height: 5,

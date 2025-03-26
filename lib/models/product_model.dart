@@ -2,7 +2,7 @@
 class ProductModel {
   final int id;
   final String name;
-  final String brand;
+  final String category;
   final String imageUrl;
   final double price;
   final double originalPrice;
@@ -12,7 +12,7 @@ class ProductModel {
   ProductModel({
     required this.id,
     required this.name,
-    required this.brand,
+    required this.category,
     required this.imageUrl,
     required this.price,
     required this.originalPrice,
@@ -28,7 +28,7 @@ class ProductModel {
     return ProductModel(
       id: json['id'] as int,
       name: json['title'] as String,
-      brand: json['brand'] as String,
+      category: json['brand'] ?? json['category'] as String,
       imageUrl: json['thumbnail'] ?? '',
       price: price,
       originalPrice: originalPrice,
@@ -41,7 +41,7 @@ class ProductModel {
     return {
       'id': id,
       'title': name,
-      'brand': brand,
+      'category': category,
       'thumbnail': imageUrl,
       'price': price,
       'discountPercentage': discount,

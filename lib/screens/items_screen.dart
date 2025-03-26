@@ -10,6 +10,15 @@ class ItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productCubit = context.read<ProductCubit>();
+    ScrollController scrollController = ScrollController();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        debugPrint("Scroller On End");
+        productCubit.fetchProducts(loadMore: true);
+      }
+    });
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink[100],
@@ -18,8 +27,7 @@ class ItemsScreen extends StatelessWidget {
           actions: [
             BlocBuilder<ProductCubit, List<ProductModel>>(
               builder: (context, state) {
-                int totalQuantity =
-                    context.watch<ProductCubit>().totalProductQuantity;
+                int totalQuantity = productCubit.totalProductQuantity;
                 return Stack(
                   children: [
                     IconButton(
@@ -57,6 +65,7 @@ class ItemsScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           return GridView.builder(
+            controller: scrollController,
             padding: const EdgeInsets.all(8),
             itemCount: products.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

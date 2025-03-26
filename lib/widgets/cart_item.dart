@@ -11,7 +11,7 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productCubit = context.watch<ProductCubit>();
+    final productCubit = context.read<ProductCubit>();
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
       child: Row(
@@ -56,7 +56,7 @@ class CartItem extends StatelessWidget {
                   Text(product.name,
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.bold)),
-                  Text(product.brand,
+                  Text(product.category,
                       style: TextStyle(fontSize: 12, color: Colors.black87)),
                   const SizedBox(height: 5),
                   Row(
