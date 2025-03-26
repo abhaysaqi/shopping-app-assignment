@@ -5,8 +5,8 @@ import 'package:shopping_app_assignment/screens/cart_screen.dart';
 import '../models/product_model.dart';
 import '../widgets/product_item.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class ItemsScreen extends StatelessWidget {
+  const ItemsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_app_assignment/cubit/product_cubit.dart';
+import 'package:shopping_app_assignment/models/product_model.dart';
 import 'package:shopping_app_assignment/widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
@@ -8,9 +10,9 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productCubit = context.read<ProductCubit>();
-    final cartItems = productCubit.cartItems;
-    double totalPrice = productCubit.getTotalPrice();
+    // final productCubit = context.read<ProductCubit>();
+    // final cartItems = productCubit.cartItems;
+    // double totalPrice = productCubit.getTotalPrice();
 
     return Scaffold(
       appBar: AppBar(
@@ -24,30 +26,37 @@ class CartScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: cartItems.isEmpty
-                ? const Center(
-                    child: Text(
-                      'Your cart is empty!',
-                      style: TextStyle(fontSize: 18, color: Colors.black54),
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: cartItems.length,
-                    itemBuilder: (context, i) {
-                      final product = cartItems[i];
-                      return CartItem(product: product);
-                    },
-                  ),
-          ),
-          if (cartItems.isNotEmpty)
-            checkOutWidget(context: context, totlePrice: totalPrice),
-          SizedBox(
-            height: 20,
-          )
-        ],
+      body: BlocBuilder<ProductCubit, List<ProductModel>>(
+        builder: (context, state) {
+          final productCubit = context.read<ProductCubit>();
+          final cartItems = productCubit.cartItems;
+          double totalPrice = productCubit.getTotalPrice();
+          return Column(
+            children: [
+              Expanded(
+                child: cartItems.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'Your cart is empty!',
+                          style: TextStyle(fontSize: 18, color: Colors.black54),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: cartItems.length,
+                        itemBuilder: (context, i) {
+                          final product = cartItems[i];
+                          return CartItem(product: product);
+                        },
+                      ),
+              ),
+              if (cartItems.isNotEmpty)
+                checkOutWidget(context: context, totlePrice: totalPrice),
+              SizedBox(
+                height: 20,
+              )
+            ],
+          );
+        },
       ),
     );
   }

@@ -8,12 +8,8 @@ class ProductCubit extends Cubit<List<ProductModel>> {
   final List<ProductModel> _cartItems = [];
 
   Future<void> fetchProducts() async {
-    try {
-      final products = await ApiService.fetchProducts();
-      emit(products);
-    } catch (e) {
-      emit([]);
-    }
+    final products = await ApiService.fetchProducts();
+    emit(products);
   }
 
   void addToCart(ProductModel product) {
@@ -24,6 +20,7 @@ class ProductCubit extends Cubit<List<ProductModel>> {
     } else {
       _cartItems.add(product);
     }
+    emit(List.from(state));
   }
 
   void removeFromCart(ProductModel product) {
@@ -34,6 +31,7 @@ class ProductCubit extends Cubit<List<ProductModel>> {
       } else {
         _cartItems.removeAt(index);
       }
+      emit(List.from(state));
     }
   }
 
