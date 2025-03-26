@@ -17,11 +17,15 @@ A simple shopping app built using **Flutter** and **Bloc (Cubit)** for state man
 
 ## 📸 **Screenshots**
 
-![Home Screen](screenshots/items_screen.png)  
+<p align="center">
+  <img src="screenshots/items_screen.png" alt="Home Screen" height="400"/>
+</p>
 *Home Screen with product listing.*
 
-![Cart Screen](screenshots/cart_screen.png)  
-*Cart Screen with total price and quantity.*
+<p align="center">
+  <img src="screenshots/cart_screen.png" alt="Cart Screen" height="400"/>
+</p>
+*Cart Screen with total price and quantity.*th total price and quantity.*
 
 ---
 
